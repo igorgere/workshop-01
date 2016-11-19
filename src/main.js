@@ -47,7 +47,8 @@ $(function () {
 
     var margin = {top: 20, right: 20, bottom: 50, left: 60},
         width = DEFAULTS.graph_width - margin.left - margin.right,
-        height = DEFAULTS.graph_height - margin.top - margin.bottom;
+        height = DEFAULTS.graph_height - margin.top - margin.bottom,
+        brush_height = DEFAULTS.brush_height;
 
 // append the svg object to the body of the page
 // append a 'group' element to 'svg'
@@ -64,8 +65,11 @@ $(function () {
         var y = d3.scaleLinear().range([height, 0]);
         var x = d3.scaleLinear().range([0, width]);
 
+        var xBrushAxis = d3.axisBottom(x);
+
         var xAxis = d3.axisBottom(x);
         var yAxis = d3.axisLeft(y);
+
 
     // GO GO GO :)
     d3.tsv("../tcga-cases.tsv", function(error, data) {
@@ -78,6 +82,19 @@ $(function () {
         return +d.case_age_at_diagnosis;
       })]);
 
+      // Brush
+      svg.append("g")
+      .attr("class", "x axis brush")
+      .attr("transform", "translate(0," + height - brush_height + ")")
+      .call(xBrushAxis)
+      .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Sepal Width (cm)");
+
+      // X
       svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -89,6 +106,7 @@ $(function () {
       .style("text-anchor", "end")
       .text("Sepal Width (cm)");
 
+      // Y
       svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -100,6 +118,7 @@ $(function () {
       .style("text-anchor", "end")
       .text("Sepal Length (cm)")
 
+      // Data
       svg.selectAll(".dot")
       .data(data)
       .enter().append("path")
@@ -109,24 +128,5 @@ $(function () {
       .style("stroke", function(d) {
         return color(d.case_pathologic_stage);
       });
-
-      // var legend = svg.selectAll(".legend-wrapper")
-      // .data(d3color.domain())
-      // .enter().append("g")
-      // .attr("class", "legend")
-      // .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-      //
-      // legend.append("rect")
-      // .attr("x", width - 18)
-      // .attr("width", 18)
-      // .attr("height", 18)
-      // .style("fill", color);
-      //
-      // legend.append("text")
-      // .attr("x", width - 24)
-      // .attr("y", 9)
-      // .attr("dy", ".35em")
-      // .style("text-anchor", "end")
-      // .text(function(d) { return d; });
     });
   })
