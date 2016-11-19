@@ -113,6 +113,7 @@ $(function () {
         return x1 < 0;
       });
 
+      svg.select(".xaxis").call(xAxis);
     };
 
     svg.append("g")
@@ -130,7 +131,7 @@ $(function () {
 
       // X
       svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "x axis xaxis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
       .append("text")
