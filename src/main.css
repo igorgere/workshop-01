@@ -93,3 +93,7 @@ h3 {
 .dot {
   stroke: #fff;
 }
+
+.hide {
+  display: none;
+}
