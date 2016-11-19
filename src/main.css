@@ -83,6 +83,13 @@ h3 {
 .axis {
   stroke: #fff;
 }
+.axis path {
+  stroke: #fff;
+}
+.tick {
+  stroke: #fff;
+}
+
 .dot {
   stroke: #fff;
 }
