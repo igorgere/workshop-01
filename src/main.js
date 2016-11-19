@@ -92,7 +92,7 @@ $(function () {
     .attr("x", width)
     .attr("y", -6)
     .style("text-anchor", "end")
-    .text("Sepal Width (cm)");
+    .text("Select range");
 
     // X
     svg.append("g")
@@ -104,7 +104,7 @@ $(function () {
     .attr("x", width)
     .attr("y", -6)
     .style("text-anchor", "end")
-    .text("Sepal Width (cm)");
+    .text("Case days to death");
 
     // Y
     svg.append("g")
@@ -116,7 +116,7 @@ $(function () {
     .attr("y", 6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-    .text("Sepal Length (cm)")
+    .text("Case age at diagnosis")
 
     // Data
     svg.selectAll(".dot")
