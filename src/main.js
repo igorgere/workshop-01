@@ -12,6 +12,39 @@ $(function () {
         graph_height: 500
     };
 
+    var symbol = d3.symbol();
+    var DOT_SHAPE = symbol.type(function(d){
+      if (d.case_gender === 'MALE') {
+        return d3.symbolSquare;
+      }
+
+      return d3.symbolCircle;
+    });
+
+    var STAGES = [
+            'I or II NOS',
+            'Not available',
+            'Stage 0',
+            'Stage I',
+            'Stage IA',
+            'Stage IB',
+            'Stage II',
+            'Stage IIA',
+            'Stage IIB',
+            'Stage IIC',
+            'Stage III',
+            'Stage IIIA',
+            'Stage IIIB',
+            'Stage IIIC',
+            'Stage IS',
+            'Stage IV',
+            'Stage IVA',
+            'Stage IVB',
+            'Stage IVC',
+            'Stage Tis',
+            'Stage X'
+        ];
+
     var margin = {top: 20, right: 20, bottom: 50, left: 60},
         width = DEFAULTS.graph_width - margin.left - margin.right,
         height = DEFAULTS.graph_height - margin.top - margin.bottom;
@@ -25,7 +58,8 @@ $(function () {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var color = d3.schemeCategory10;
+        var color =  d3.scaleOrdinal(d3.schemeCategory20);
+        color.domain(STAGES);
 
         var y = d3.scaleLinear().range([height, 0]);
         var x = d3.scaleLinear().range([0, width]);
@@ -68,12 +102,13 @@ $(function () {
 
       svg.selectAll(".dot")
       .data(data)
-      .enter().append("circle")
-      .attr("class", "dot")
-      .attr("r", 5)
-      .attr("cx", function(d) { return x(+d.case_days_to_death); })
-      .attr("cy", function(d) { return y(+d.case_age_at_diagnosis); })
-      .style("fill", function(d) { return d3.color(d.species); });
+      .enter().append("path")
+      .attr("d", DOT_SHAPE)
+      .attr("transform", function(d) { return "translate(" + x(d.case_days_to_death) + "," + y(d.case_age_at_diagnosis) + ")"; })
+      .style("fill", "none")
+      .style("stroke", function(d) {
+        return color(d.case_pathologic_stage);
+      });
 
       // var legend = svg.selectAll(".legend-wrapper")
       // .data(d3color.domain())
