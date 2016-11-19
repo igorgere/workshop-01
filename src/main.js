@@ -48,7 +48,7 @@ $(function () {
   var margin = {top: 20, right: 20, bottom: 50, left: 60},
   width = DEFAULTS.graph_width - margin.left - margin.right,
   height = DEFAULTS.graph_height - margin.top - margin.bottom,
-  brush_height = DEFAULTS.brush_height;
+  brush_height = DEFAULTS.graph_height - margin.top - margin.bottom + DEFAULTS.brush_height;
 
   // append the svg object to the body of the page
   // append a 'group' element to 'svg'
@@ -85,7 +85,7 @@ $(function () {
     // Brush
     svg.append("g")
     .attr("class", "x axis brush")
-    .attr("transform", "translate(0," + height - brush_height + ")")
+    .attr("transform", "translate(0," + brush_height + ")")
     .call(xBrushAxis)
     .append("text")
     .attr("class", "label")
